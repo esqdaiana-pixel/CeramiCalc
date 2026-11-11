@@ -1,0 +1,382 @@
+/* Paleta neutra de la V1. Para cambiar la identidad visual, alcanza con editar estas variables. */
+:root {
+  --fondo: #f1f2f3;
+  --superficie: #ffffff;
+  --tinta: #1e2328;
+  --tinta-suave: #5c656f;
+  --linea: #d9dcdf;
+  --linea-fuerte: #aeb4ba;
+  --acento: #2e3b49;
+  --acento-fuerte: #1f2a35;
+  --sobre-acento: #ffffff;
+  --acento-suave: #e6e9ed;
+  --alerta: #8f2c2c;
+  --alerta-fondo: #f8eded;
+  --fuente: 'Hanken Grotesk', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+*[hidden] { display: none !important; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--fondo);
+  color: var(--tinta);
+  font-family: var(--fuente);
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+h1, h2, p, dl, dd, ul, fieldset { margin: 0; padding: 0; }
+ul { list-style: none; }
+
+h2 { font-size: 1.125rem; font-weight: 700; letter-spacing: -0.005em; }
+
+code { font-size: 0.9em; background: var(--acento-suave); padding: 0.1em 0.35em; border-radius: 4px; }
+
+:focus-visible { outline: 3px solid var(--acento); outline-offset: 2px; }
+
+/* ---------- Estructura ---------- */
+.app { max-width: 1160px; margin: 0 auto; padding: 0 20px 48px; }
+
+.encabezado {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 20px 0;
+}
+
+.marca { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+.marca-nombre { font-size: 1.5rem; font-weight: 700; letter-spacing: -0.02em; }
+.marca-detalle { color: var(--tinta-suave); font-size: 0.95rem; }
+
+.usuario { display: flex; align-items: center; gap: 12px; color: var(--tinta-suave); font-size: 0.9rem; min-width: 0; }
+.usuario-email { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.menu-herramientas { position: relative; }
+.boton-mas {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  color: var(--sobre-acento);
+  background: var(--acento);
+  border: 0;
+  border-radius: 50%;
+  cursor: pointer;
+}
+.boton-mas:hover { background: var(--acento-fuerte); }
+.boton-mas svg, .opcion-herramienta svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.menu-herramientas-lista {
+  position: absolute;
+  z-index: 5;
+  top: calc(100% + 8px);
+  right: 0;
+  width: 230px;
+  padding: 6px;
+  background: var(--superficie);
+  border: 1px solid var(--linea);
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgb(30 35 40 / 14%);
+}
+.opcion-herramienta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 44px;
+  padding: 8px 10px;
+  color: var(--tinta);
+  font: inherit;
+  text-align: left;
+  background: transparent;
+  border: 0;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.opcion-herramienta:hover:not(:disabled) { background: var(--fondo); }
+.opcion-herramienta svg { color: var(--acento); flex: none; }
+.opcion-herramienta:disabled { color: var(--tinta-suave); cursor: not-allowed; }
+.etiqueta-proximamente { margin-left: auto; font-size: 0.72rem; color: var(--tinta-suave); }
+
+.pantalla { display: grid; grid-template-columns: minmax(0, 1fr); gap: 20px; align-items: start; }
+.pantalla > *, .columna-derecha { width: 100%; min-width: 0; }
+.columna-derecha { display: grid; gap: 20px; }
+
+.panel {
+  background: var(--superficie);
+  border: 1px solid var(--linea);
+  border-radius: 8px;
+  padding: 24px;
+}
+.panel > h2 { margin-bottom: 16px; }
+
+.centrado { min-height: 100vh; display: grid; place-items: center; padding: 20px; }
+.estado { color: var(--tinta-suave); padding: 24px 0; }
+
+.panel-login { width: min(100%, 380px); display: grid; gap: 16px; }
+.panel-login h1 { display: grid; gap: 2px; margin-bottom: 4px; }
+.panel-aviso { max-width: 520px; display: grid; gap: 12px; }
+.panel-aviso h1, .panel-aviso h2 { font-size: 1.25rem; margin: 0; }
+
+/* ---------- Campos ---------- */
+.campo { display: grid; gap: 6px; }
+.campo > span { font-size: 0.9rem; font-weight: 600; }
+
+input[type='search'], input[type='email'], input[type='password'], input:not([type]), select {
+  width: 100%;
+  min-height: 44px;
+  padding: 0 12px;
+  font: inherit;
+  color: var(--tinta);
+  background: var(--superficie);
+  border: 1px solid var(--linea-fuerte);
+  border-radius: 6px;
+}
+textarea { font: inherit; }
+input::placeholder { color: #8a929a; }
+
+.campos-fila { display: grid; grid-template-columns: 1fr 110px; gap: 12px; }
+.campo-buscador-modelo { width: 100%; }
+.filtro-tamano { width: min(100%, 240px); margin-top: 12px; }
+
+.con-sufijo { position: relative; }
+.con-sufijo input { padding-right: 44px; }
+.sufijo { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); color: var(--tinta-suave); pointer-events: none; }
+
+/* ---------- Selección de producto ---------- */
+.contador { margin: 12px 0 8px; font-size: 0.85rem; color: var(--tinta-suave); }
+
+.lista-productos {
+  max-height: 340px;
+  overflow-y: auto;
+  border: 1px solid var(--linea);
+  border-radius: 6px;
+}
+.lista-productos li + li { border-top: 1px solid var(--linea); }
+
+.fila-producto {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-areas: 'nombre tamano' 'marca tamano' 'rinde aviso';
+  gap: 2px 12px;
+  width: 100%;
+  padding: 10px 14px;
+  text-align: left;
+  font: inherit;
+  color: inherit;
+  background: transparent;
+  border: 0;
+  border-left: 4px solid transparent;
+  cursor: pointer;
+}
+.fila-producto:hover { background: var(--fondo); }
+.fila-producto.activa { background: var(--acento-suave); border-left-color: var(--acento); }
+.fila-nombre { grid-area: nombre; font-weight: 600; }
+.fila-tamano { grid-area: tamano; font-weight: 600; font-variant-numeric: tabular-nums; }
+.fila-fabricante { grid-area: marca; font-size: 0.8rem; color: var(--tinta-suave); }
+.fila-rinde { grid-area: rinde; font-size: 0.85rem; color: var(--tinta-suave); font-variant-numeric: tabular-nums; }
+.fila-aviso { grid-area: aviso; font-size: 0.8rem; color: var(--alerta); justify-self: end; }
+.fabricante-seleccionado { display: block; margin-top: 3px; font-size: 0.85rem; color: var(--tinta-suave); }
+
+.vacio { color: var(--tinta-suave); padding: 12px 0; }
+
+.nota { margin-top: 8px; font-size: 0.85rem; color: var(--tinta-suave); }
+.nota-alerta { color: var(--alerta); font-weight: 600; }
+.rendimiento { margin-top: 10px; font-size: 0.95rem; }
+
+/* ---------- Cálculo ---------- */
+.resumen-producto { margin-bottom: 16px; color: var(--tinta-suave); }
+.resumen-producto strong { color: var(--tinta); }
+
+form { display: grid; gap: 16px; }
+
+.descarte { display: flex; align-items: flex-end; gap: 24px; flex-wrap: wrap; }
+.campo-descarte { width: 180px; }
+.campos-materiales { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+
+.interruptor { display: inline-flex; align-items: center; gap: 10px; cursor: pointer; min-height: 44px; font-weight: 600; }
+.interruptor input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.interruptor-pista {
+  position: relative;
+  width: 44px;
+  height: 26px;
+  border-radius: 999px;
+  background: var(--linea-fuerte);
+  transition: background 0.15s;
+  flex: none;
+}
+.interruptor-pista::after {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #fff;
+  transition: transform 0.15s;
+}
+.interruptor input:checked + .interruptor-pista { background: var(--acento); }
+.interruptor input:checked + .interruptor-pista::after { transform: translateX(18px); }
+.interruptor input:focus-visible + .interruptor-pista { outline: 3px solid var(--acento); outline-offset: 2px; }
+
+.avisos {
+  background: var(--alerta-fondo);
+  border: 1px solid #e3c4c4;
+  border-left: 4px solid var(--alerta);
+  color: var(--alerta);
+  border-radius: 6px;
+  padding: 12px 14px;
+  font-size: 0.95rem;
+}
+.avisos li + li { margin-top: 4px; }
+
+.boton-principal {
+  min-height: 48px;
+  padding: 0 24px;
+  font: inherit;
+  font-weight: 700;
+  color: var(--sobre-acento);
+  background: var(--acento);
+  border: 0;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.boton-principal:hover { background: var(--acento-fuerte); }
+.boton-principal:disabled { opacity: 0.6; cursor: progress; }
+
+.boton-texto {
+  font: inherit;
+  font-weight: 600;
+  color: var(--acento);
+  background: none;
+  border: 0;
+  padding: 8px;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* ---------- Resultados ---------- */
+.destacados { display: grid; grid-template-columns: 1fr 1.4fr; gap: 12px; margin-bottom: 20px; }
+
+.destacado {
+  display: grid;
+  gap: 4px;
+  align-content: start;
+  padding: 18px 20px;
+  border: 1px solid var(--linea);
+  border-radius: 8px;
+  background: var(--fondo);
+}
+.destacado-efectivo { background: var(--acento); border-color: var(--acento); color: var(--sobre-acento); }
+.destacado-etiqueta { font-size: 0.9rem; font-weight: 600; }
+.destacado-valor {
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+}
+.destacado-nota { font-size: 0.9rem; opacity: 0.85; font-variant-numeric: tabular-nums; }
+
+.detalle { border-top: 1px solid var(--linea); }
+.fila-detalle {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--linea);
+}
+.fila-detalle dt { color: var(--tinta-suave); }
+.fila-detalle dd { font-weight: 600; text-align: right; font-variant-numeric: tabular-nums; }
+.resultado-producto { margin-bottom: 12px; font-size: 1.05rem; }
+.detalle-presupuesto { margin-bottom: 16px; }
+.resultados-calidades { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.resultado-calidad { min-width: 0; padding: 16px; border: 1px solid var(--linea); border-radius: 8px; }
+.resultado-calidad h3, .rentabilidad-calidad h3 { margin: 0 0 12px; font-size: 1.05rem; }
+.resultado-calidad .nota { margin: 0 0 10px; }
+.precios-calidad { font-size: 0.85rem; }
+.precios-calidad .fila-detalle { gap: 8px; align-items: baseline; }
+.precios-calidad .fila-detalle dt { flex: 0 0 70px; }
+.precios-calidad .fila-detalle dd { flex: 1; }
+.resultado-materiales { margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--linea); }
+.resultado-materiales > h3 { margin: 0 0 4px; font-size: 1.05rem; }
+.lista-resultados-materiales { margin-top: 10px; font-size: 0.9rem; }
+.lista-resultados-materiales .fila-detalle:last-child { font-weight: 700; }
+.boton-enviar-presupuesto { width: 100%; }
+.resultado-cajas { margin-bottom: 12px; }
+.producto-seleccionado { display: grid; gap: 4px; margin-top: 14px; padding: 12px 14px; background: var(--acento-suave); border-radius: 6px; }
+.producto-seleccionado > span { color: var(--tinta-suave); font-size: 0.8rem; }
+.mensaje-presupuesto { display: grid; gap: 12px; }
+.mensaje-presupuesto-encabezado { display: flex; align-items: center; justify-content: space-between; gap: 14px; }
+.mensaje-presupuesto-encabezado h2 { margin: 0 0 4px; }
+.mensaje-presupuesto-encabezado p { color: var(--tinta-suave); font-size: 0.9rem; }
+.boton-copiar { min-height: 44px; flex: none; }
+.texto-presupuesto {
+  width: 100%;
+  min-height: 220px;
+  padding: 14px;
+  color: var(--tinta);
+  background: #fff;
+  border: 1px solid var(--linea-fuerte);
+  border-radius: 6px;
+  line-height: 1.6;
+  resize: vertical;
+  user-select: text;
+  -webkit-user-select: text;
+  touch-action: manipulation;
+}
+.mensaje-copiar-estado { min-height: 1.5em; color: var(--tinta-suave); font-size: 0.9rem; }
+
+/* ---------- Informe privado de rentabilidad ---------- */
+.rentabilidad { margin-bottom: 24px; }
+.rentabilidad-pagina { max-width: 1160px; margin: 0 auto; }
+.rentabilidad-pagina > .rentabilidad-encabezado { margin-bottom: 16px; }
+.rentabilidad-pagina h1 { font-size: 1.4rem; letter-spacing: -0.02em; }
+.rentabilidad-etiqueta { color: var(--alerta); font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; }
+.rentabilidad-calidades { display: grid; gap: 16px; margin-top: 18px; }
+.rentabilidad-calidad { padding: 18px; border: 1px solid var(--linea); border-radius: 8px; }
+.rentabilidad-cantidad { margin: -6px 0 12px; color: var(--tinta-suave); }
+.rentabilidad-encabezado { display: flex; justify-content: space-between; align-items: start; gap: 16px; }
+.rentabilidad-encabezado h2 { margin-bottom: 6px; }
+.rentabilidad-encabezado p, .rentabilidad-definiciones { color: var(--tinta-suave); }
+.rentabilidad-definiciones { display: grid; gap: 4px; padding: 14px 0; }
+.rentabilidad-definiciones strong { color: var(--tinta); }
+.rentabilidad-resumen { display: grid; gap: 4px; padding: 12px 0; border-top: 1px solid var(--linea); }
+.rentabilidad-resumen span { color: var(--tinta-suave); }
+.rentabilidad-consultar { margin: 8px 0 16px; }
+.rentabilidad-costo { display: grid; gap: 4px; padding: 14px 0; font-weight: 600; font-variant-numeric: tabular-nums; }
+.rentabilidad-costo span { color: var(--tinta-suave); font-weight: 400; }
+.rentabilidad-totales { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.rentabilidad-precio { display: grid; gap: 5px; align-content: start; padding: 16px; background: var(--fondo); border: 1px solid var(--linea); border-radius: 8px; font-variant-numeric: tabular-nums; }
+.rentabilidad-precio h3 { font-size: 1rem; margin: 0 0 4px; }
+.rentabilidad-precio p { margin: 0; }
+.rentabilidad-error { margin: 0 0 24px; }
+
+/* ---------- Pantallas chicas ---------- */
+@media (max-width: 860px) {
+  .lista-productos { max-height: 280px; }
+}
+
+@media (max-width: 520px) {
+  .app { padding: 0 14px 40px; }
+  .panel { padding: 18px; }
+  .destacados { grid-template-columns: 1fr; }
+  .usuario-email { display: none; }
+  .filtro-tamano { width: 100%; }
+  .rentabilidad-encabezado { align-items: flex-start; }
+  .rentabilidad-totales { grid-template-columns: 1fr; }
+  .resultados-calidades { grid-template-columns: 1fr; }
+  .campos-materiales, .lista-resultados-materiales { grid-template-columns: 1fr; }
+  .mensaje-presupuesto-encabezado { align-items: flex-start; flex-direction: column; }
+  .boton-copiar { width: 100%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; }
+}

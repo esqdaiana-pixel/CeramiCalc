@@ -1,0 +1,13 @@
+node_modules
+dist
+.vercel
+.venv
+.env
+.env.local
+.env.*.local
+*.xlsx
+
+# Datos y listas comerciales sensibles: nunca subir a GitHub
+database/02_datos_costos.sql
+database/05_importar_marcas.sql
+database/06_actualizar_marcas_desde_lista.sql

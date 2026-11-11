@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { filtrarProductos, listarTamanos } from '../lib/catalogo.js';
 import { evaluarPresupuesto } from '../lib/evaluar.js';
+import { registrarEvento } from '../lib/analytics.js';
 import SeleccionProducto from './SeleccionProducto.jsx';
 import FormularioCalculo from './FormularioCalculo.jsx';
 import Resultados from './Resultados.jsx';
@@ -55,14 +56,77 @@ export default function Calculadora({
     onPresupuestoChange?.(evaluacion?.ok ? evaluacion : null);
   }, [evaluacion, onPresupuestoChange]);
 
+  useEffect(() => {
+    const consulta = texto.trim();
+    if (consulta.length < 2) return undefined;
+
+    const temporizador = window.setTimeout(() => {
+      registrarEvento('product_search', {
+        query_length: consulta.length,
+        results_count: visibles.length,
+      });
+    }, 700);
+
+    return () => window.clearTimeout(temporizador);
+  }, [texto, visibles.length]);
+
   function cambiarBusqueda(nuevoTexto) {
     setTexto(nuevoTexto);
     setProductoId(null);
   }
 
   function elegirProducto(id) {
+    const seleccionado = catalogo.find((item) => item.id === id);
+    if (seleccionado) {
+      registrarEvento('product_selected', {
+        manufacturer: seleccionado.fabricante,
+        product_format: seleccionado.tamano,
+      });
+    }
     setProductoId(id);
     setTexto('');
+  }
+
+  function elegirPegamento(id) {
+    const material = pegamentos.find((item) => item.id === id);
+    if (material) {
+      registrarEvento('material_selected', {
+        material_type: 'adhesive',
+        application: material.aplicacion,
+      });
+    }
+    setPegamentoId(id);
+  }
+
+  function elegirPastina(id) {
+    const material = pastinas.find((item) => item.id === id);
+    if (material) {
+      registrarEvento('material_selected', {
+        material_type: 'grout',
+        application: material.aplicacion,
+      });
+    }
+    setPastinaId(id);
+  }
+
+  function cambiarDescarte(activado) {
+    registrarEvento('waste_option_changed', { enabled: activado });
+    setDescarteActivo(activado);
+  }
+
+  function calcularPresupuesto() {
+    const resultado = evaluarPresupuesto({ producto, m2Texto, descarteActivo, pctTexto, pegamento, pastina });
+    if (resultado.ok) {
+      registrarEvento('budget_calculation_completed', {
+        has_waste: resultado.descartePct > 0,
+        available_qualities: resultado.calidades.filter((calidad) => calidad.calidadDisponible).length,
+      });
+    } else {
+      registrarEvento('budget_calculation_invalid', {
+        error_count: resultado.errores.length,
+      });
+    }
+    setCalculado(true);
   }
 
   if (carga.fase === 'cargando') return <div hidden={hidden}><p className="estado">Cargando catálogo…</p></div>;
@@ -100,17 +164,17 @@ export default function Calculadora({
           m2Texto={m2Texto}
           onM2={setM2Texto}
           descarteActivo={descarteActivo}
-          onDescarte={setDescarteActivo}
+          onDescarte={cambiarDescarte}
           pctTexto={pctTexto}
           onPct={setPctTexto}
           pegamentos={pegamentos}
           pegamentoId={pegamentoId}
-          onPegamento={setPegamentoId}
+          onPegamento={elegirPegamento}
           pastinas={pastinas}
           pastinaId={pastinaId}
-          onPastina={setPastinaId}
+          onPastina={elegirPastina}
           errores={evaluacion && !evaluacion.ok ? evaluacion.errores : []}
-          onCalcular={() => setCalculado(true)}
+          onCalcular={calcularPresupuesto}
         />
         <Resultados resultado={evaluacion?.ok ? evaluacion : null} calculado={calculado} />
       </div>

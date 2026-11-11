@@ -1,4 +1,5 @@
 import { useRef, useState } from 'react';
+import { registrarEvento } from '../lib/analytics.js';
 import { generarTextoPresupuesto } from '../lib/textoPresupuesto.js';
 
 export default function MensajePresupuesto({ presupuesto }) {
@@ -15,10 +16,14 @@ export default function MensajePresupuesto({ presupuesto }) {
         campo.current?.select();
         if (!document.execCommand('copy')) throw new Error('El navegador no permitió copiar.');
       }
-      setEstado('Presupuesto copiado. Ya podés pegarlo en el chat.');
     } catch {
+      registrarEvento('budget_copy_failed');
       setEstado('No se pudo copiar automáticamente. Mantené presionado el texto, seleccioná todo y tocá Copiar.');
+      return;
     }
+
+    registrarEvento('budget_copied', { method: 'copy_button' });
+    setEstado('Presupuesto copiado. Ya podés pegarlo en el chat.');
   }
 
   function seleccionarTodo(evento) {

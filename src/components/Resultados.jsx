@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { formatEntero, formatM2, formatPesos, formatPesosExactos, formatPorcentaje } from '../lib/formato.js';
+import { registrarEvento } from '../lib/analytics.js';
 import MensajePresupuesto from './MensajePresupuesto.jsx';
 
 function Fila({ etiqueta, valor }) {
@@ -108,7 +109,12 @@ export default function Resultados({ resultado, calculado }) {
       <button
         type="button"
         className="boton-principal boton-enviar-presupuesto"
-        onClick={() => setMostrarMensaje(true)}
+        onClick={() => {
+          registrarEvento('budget_message_opened', {
+            available_qualities: resultado.calidades.filter((calidad) => calidad.calidadDisponible).length,
+          });
+          setMostrarMensaje(true);
+        }}
       >
         Enviar presupuesto
       </button>

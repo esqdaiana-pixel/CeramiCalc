@@ -1,5 +1,6 @@
 node_modules
 dist
+.vite
 .vercel
 .venv
 .env
@@ -7,7 +8,12 @@ dist
 .env.*.local
 *.xlsx
 
-# Datos y listas comerciales sensibles: nunca subir a GitHub
-database/02_datos_costos.sql
-database/05_importar_marcas.sql
-database/06_actualizar_marcas_desde_lista.sql
+# Archivos de administración y pruebas quedan en la computadora.
+database/
+src/**/*.test.*
+src/setupTests.js
+src/components/Login.jsx
+src/components/MenuHerramientas.jsx
+src/components/PanelRentabilidad.jsx
+src/lib/fixtures.js
+src/lib/rentabilidad.js
